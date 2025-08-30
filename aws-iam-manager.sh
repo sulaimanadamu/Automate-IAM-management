@@ -10,10 +10,15 @@ IAM_USER_NAMES=("alice" "bob" "charlie")
 # Function to create IAM users
 create_iam_users() { echo "Starting IAM user creation process... "
 echo "-------------------------------------"
+
+# Get a list of all preexisting users to avoid duplicates.
+user_list=($(aws iam list-users --query 'Users[*].UserName' --output text))
+
 # Write the loop to create the IAM users here---"n 
 for name in "${IAM_USER_NAMES[@]}"
   do
-    if aws iam get-user --user-name "$name" >/dev/null 2>&1; then
+    # check if the user exist before creation
+    if [[ " ${user_list[@]} " =~ " ${name} " ]]; then
       echo "User $name already exists. Skipping creation."
     else
       # create password
@@ -33,25 +38,29 @@ echo "IAM user creation process completed."
 
 # Function to create admin group and attach policy
 create_admin_group() {
+
+  # check existing group list
+  group_list=($(aws iam list-groups --query 'Groups[*].GroupName' --output text))
+
    echo "Creating admin group and attaching policy..."    
-   echo "--------------------------------------------"        
-   # Check if group already exists
+   echo "--------------------------------------------" 
+   group_name="admin"       
+   # Check if group already exists 
+    if [[ " ${group_list[@]} " =~ " ${group_name} " ]]; then
+      echo "Success: AdministratorAccess policy attached"  
+    else
+      echo "---Write this part to create the admin group---"
+      aws iam create-group --group-name "$group_name"
 
-  aws iam get-group --group-name "admin" >/dev/null 2>&1    
-  if [ $? -eq 0 ]; then 
-    echo "Success: AdministratorAccess policy attached"  
-  else
-    echo "---Write this part to create the admin group---"
-    aws iam create-group --group-name admin 
-
-    echo " Attaching AdministratorAccess policy... "
-    aws iam attach-group-policy --group-name admin --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
-  fi 
-  # Attach AdministratorAccess policy  
-  echo "---Write the AWS CLI command to attach the policy here---"
-  echo "----------------------------------"  
- 
-  }
+       # Attach AdministratorAccess policy  
+      echo " Attaching AdministratorAccess policy... "
+      aws iam attach-group-policy --group-name "$group_name" --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+    fi 
+   
+  
+    echo "----------------------------------"  
+  
+    }
 
 # Function to add users to admin group
 add_users_to_admin_group() {

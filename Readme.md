@@ -71,7 +71,9 @@ Methods for configure include:
         - Default output format (json, table, or text)
     
     - we can also use the root user credentials by creating a access key 
-      you can create it by following  ` click user name on the top right corner → My Security Credentials → Access Keys → Create Access Key `
+      you can create it by following  
+      
+      ` click user name on the top right corner → My Security Credentials → Access Keys → Create Access Key `
 
     
 The credentials are stored at
@@ -103,11 +105,29 @@ check if a user exist.
 
   - check if aws command is installed. 
   - create a user from an array of users.
+  - create user login credentials and append them to a file.
   - create a group called admin
   - attached policies to the group 
-  - added users to the group.
+  - add users to the group.
 
 now lets Send the code from my vscode on local machine to AWS EC2 instance using
 
-> scp
+> scp -i ../Documents/training.pem ./filename.sh username@ip-address.location.compute.amazonaws.com /
+
+here is out current states without any user or group.
+
+![no group or user created yet](./images/Snipaste_2025-08-28_04-19-46.png)
   
+lets run the code and check for the change on the management console
+
+![Created three users and a group using a script](./images/user-automatically-created.png)
+
+lets see users our script created on out management console
+
+![show charlie, bob and alice as users from management console](./images/users-created-list.png)
+
+lets see group our script created on out management console
+
+![group created](./images/group-created.png)
+
+this script can be improved by using a for loop in group creation function to create multiple groups 
