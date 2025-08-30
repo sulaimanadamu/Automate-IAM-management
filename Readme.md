@@ -37,28 +37,28 @@ we are going to learn how to automate the;
 
 - **CONFIGURE THE AWS CLI** : 
     *Note*: The best(safer and efficient) way to configure aws Cli is by attaching a Role to an EC2 instance with permissions such as `IAMFullAccess` which is not adviseable instead you can use the custom permissions in the json syntax below.
-    `
+    ```javascript
     {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iam:CreateGroup",
-        "iam:AttachGroupPolicy",
-        "iam:AddUserToGroup",
-        "iam:CreateUser",
-        "iam:DeleteUser",
-        "iam:ListUsers",
-        "iam:ListGroups",
-        "iam:ListPolicies"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "iam:CreateGroup",
+            "iam:AttachGroupPolicy",
+            "iam:AddUserToGroup",
+            "iam:CreateUser",
+            "iam:DeleteUser",
+            "iam:ListUsers",
+            "iam:ListGroups",
+            "iam:ListPolicies"
+          ],
+          "Resource": "*"
+        }
+        ]
+      }
 
-    `
+    ```
 Methods for configure include:
     - create a user with permissions like in the above and use its credentials;
 
