@@ -130,4 +130,6 @@ lets see group our script created on out management console
 
 ![group created](./images/group-created.png)
 
-this script can be improved by using a for loop in group creation function to create multiple groups 
+- This script can be improved by using a for loop in group creation function to create multiple groups 
+- The code will throw some errors this due to the limited permissions assigned to the role. to fully enjoy
+the automation script, set give the role more access or fullACCESS. 
